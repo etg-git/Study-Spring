@@ -39,10 +39,10 @@ public class JoinController {
 	}
 	
 	@RequestMapping(value = "/allSearch", method = RequestMethod.POST)
-	public String allSearch(@RequestParam String cmd, @RequestParam String search_desc, Model model) {
-		JoinInfo info = service.search(Integer.parseInt(search_desc));
-		model.addAttribute("list", info);
-		return "updateDeleteSearch";
+	public String allSearch(@RequestParam String search_desc, Model model) {
+		JoinInfo[] list = service.search(Integer.parseInt(search_desc));
+		model.addAttribute("list", list);
+		return "mainForm";
 	}
 	
 	@RequestMapping(value = "/searchForm", method = RequestMethod.POST)
@@ -61,7 +61,7 @@ public class JoinController {
 		if(cmd.equals("update")) {
 			service.update(info);
 		} else{
-			service.delete(info.getId());
+			service.delete(info);
 		}
 		
 		return "redirect:/";

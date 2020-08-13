@@ -4,10 +4,10 @@ import java.sql.Connection;
 
 public interface MyIDAO {
 	Connection connect();
-	JoinInfo search(Connection con, int id);
+	JoinInfo[] search(Connection con, int id);
 	JoinInfo[] getAll(Connection con);
 	int insert(Connection con, JoinInfo info);
-	int delete(Connection con, int id);
+	int delete(Connection con, JoinInfo info);
 	int update(Connection con, JoinInfo info);
 	void disconnect(Connection con);
 }

@@ -54,8 +54,8 @@ public class MySqlDao implements MyIDAO{
 	}
 
 	@Override
-	public JoinInfo search(Connection con, int id) {
-		JoinInfo info = null;
+	public JoinInfo[] search(Connection con, int id) {
+		JoinInfo[] info = null;
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -67,13 +67,14 @@ public class MySqlDao implements MyIDAO{
 			rs = stmt.executeQuery();
 			
 			if(rs.next()) {
+				info = new JoinInfo[1];
 				int my_id = rs.getInt("id");
 				String name = rs.getString("name");
 				String password = rs.getString("password");
 				String nickName = rs.getString("nickName");
 				String tel = rs.getString("tel");
 				
-				info = new JoinInfo(my_id, name, password, nickName, tel);
+				info[0] = new JoinInfo(my_id, name, password, nickName, tel);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,15 +144,20 @@ public class MySqlDao implements MyIDAO{
 	}
 
 	@Override
-	public int delete(Connection con, int id) {
+	public int delete(Connection con, JoinInfo info) {
 		int result = 0;
 		
 		PreparedStatement stmt = null;
-		String sql = "DELETE FROM join_info WHERE id = ?";
+		String sql = "DELETE FROM join_info WHERE id = ? AND name = ? AND password = ? AND nickName = ? AND tel = ?";
 		
 		try {
 			stmt = con.prepareStatement(sql);
-			stmt.setInt(1, id);
+			stmt.setInt(1, info.getId());
+			stmt.setString(2, info.getName());
+			stmt.setString(3, info.getPassword());
+			stmt.setString(4, info.getNickName());
+			stmt.setString(5, info.getTel());
+			
 			
 			result = stmt.executeUpdate();
 		} catch (SQLException e) {

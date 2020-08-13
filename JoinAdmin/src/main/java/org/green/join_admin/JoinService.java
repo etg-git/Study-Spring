@@ -34,17 +34,17 @@ public class JoinService {
 		return result;
 	}
 	
-	public int delete(int id) {
+	public int delete(JoinInfo info) {
 		Connection con = myDao.connect();
-		int result = myDao.delete(con, id);
+		int result = myDao.delete(con, info);
 		myDao.disconnect(con);
 		
 		return result;
 	}
 	
-	public JoinInfo search(int id) {
+	public JoinInfo[] search(int id) {
 		Connection con = myDao.connect();
-		JoinInfo info = myDao.search(con, id);
+		JoinInfo[] info = myDao.search(con, id);
 		myDao.disconnect(con);
 		
 		return info;
